@@ -1,0 +1,14 @@
+{
+    "name": "YanickSenn.TableView",
+    "rootNamespace": "YanickSenn.TableView",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

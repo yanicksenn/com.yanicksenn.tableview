@@ -1,0 +1,21 @@
+{
+    "name": "YanickSenn.TableView.Editor",
+    "rootNamespace": "YanickSenn.TableView.Editor",
+    "references": [
+        "YanickSenn.TableView",
+        "YanickSenn.Utils"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
