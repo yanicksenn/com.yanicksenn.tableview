@@ -231,6 +231,7 @@ namespace YanickSenn.TableView.Editor
                 makeCell = () =>
                 {
                     var field = new ObjectField { objectType = typeof(ScriptableObject), label = "" };
+                    field.SetEnabled(false);
                     return field;
                 },
                 bindCell = (element, index) =>
