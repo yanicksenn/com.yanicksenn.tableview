@@ -19,9 +19,11 @@ namespace YanickSenn.TableView.Editor
         private MultiColumnListView _listView;
         private Label _statusLabel;
         private Button _createButton;
+        private ToolbarSearchField _searchField;
         
         private Type _currentType;
         private List<ScriptableObject> _objects;
+        private List<SerializedObject> _allSerializedObjects;
         private List<SerializedObject> _serializedObjects;
         
         // Cache property paths to build columns once
@@ -48,6 +50,14 @@ namespace YanickSenn.TableView.Editor
 
         private void CreateGUI()
         {
+            var toolbar = new Toolbar();
+            rootVisualElement.Add(toolbar);
+
+            _searchField = new ToolbarSearchField();
+            _searchField.style.flexGrow = 1;
+            _searchField.RegisterValueChangedCallback(evt => ApplyFilter(evt.newValue));
+            toolbar.Add(_searchField);
+
             _statusLabel = new Label("Select a ScriptableObject to view table.")
             {
                 style =
@@ -131,9 +141,11 @@ namespace YanickSenn.TableView.Editor
 
             _currentType = null;
             _objects = null;
+            _allSerializedObjects = null;
             _serializedObjects = null;
             _propertyPaths = null;
             _propertyDisplayNames = null;
+            _searchField.value = "";
 
             _listView.columns.Clear();
             _listView.Rebuild();
@@ -159,17 +171,50 @@ namespace YanickSenn.TableView.Editor
                 .Where(o => o != null && o.GetType() == type) // Strict type check to avoid mixed inheritance tables for now
                 .ToList();
 
-            _serializedObjects = _objects.Select(o => new SerializedObject(o)).ToList();
+            _allSerializedObjects = _objects.Select(o => new SerializedObject(o)).ToList();
 
             // 2. Build Columns based on the first object (or a temp one if list empty?)
             // If list is empty, we can't really build columns effectively without reflection or a dummy instance.
             // But if we selected one, the list has at least one.
             if (_objects.Count > 0)
             {
-                BuildColumns(_serializedObjects[0]);
+                BuildColumns(_allSerializedObjects[0]);
             }
 
             // 3. Bind
+            ApplyFilter(_searchField.value);
+        }
+
+        private void ApplyFilter(string filter)
+        {
+            if (_allSerializedObjects == null) return;
+
+            if (string.IsNullOrEmpty(filter))
+            {
+                _serializedObjects = new List<SerializedObject>(_allSerializedObjects);
+            }
+            else
+            {
+                var lowerFilter = filter.ToLowerInvariant();
+                _serializedObjects = _allSerializedObjects.Where(so =>
+                {
+                    if (so.targetObject.name.ToLowerInvariant().Contains(lowerFilter)) return true;
+
+                    if (_propertyPaths != null)
+                    {
+                        foreach (var path in _propertyPaths)
+                        {
+                            var prop = so.FindProperty(path);
+                            if (prop != null && prop.propertyType == SerializedPropertyType.String)
+                            {
+                                if (prop.stringValue.ToLowerInvariant().Contains(lowerFilter)) return true;
+                            }
+                        }
+                    }
+                    return false;
+                }).ToList();
+            }
+
             _listView.itemsSource = _serializedObjects;
             _listView.Rebuild();
         }
