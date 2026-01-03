@@ -1,17 +1,16 @@
-
 {
-    "name": "com.yanicksenn.tableview",
-    "version": "1.0.0",
-    "displayName": "Table View",
-    "description": "This package allows viewing scriptable objects in a table format.",
-    "unity": "6000.0",
-    "unityRelease": "51f1",
-    "author": {
-        "name": "Yanick Senn",
-        "email": "info@yanicksenn.com",
-        "url": ""
-    },
-    "dependencies": {
-        "com.yanicksenn.utils": "https://github.com/yanicksenn/com.yanicksenn.utils#1.0.4"
-    }
+  "name": "com.yanicksenn.tableview",
+  "version": "1.0.1",
+  "displayName": "Table View",
+  "description": "This package allows viewing scriptable objects in a table format.",
+  "unity": "6000.0",
+  "unityRelease": "51f1",
+  "author": {
+    "name": "Yanick Senn",
+    "email": "info@yanicksenn.com",
+    "url": ""
+  },
+  "dependencies": {
+    "com.yanicksenn.utils": "https://github.com/yanicksenn/com.yanicksenn.utils#1.0.4"
+  }
 }
