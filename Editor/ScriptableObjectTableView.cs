@@ -360,6 +360,7 @@ namespace YanickSenn.TableView.Editor
                 }
                 
                 bool isTextArea = field != null && Attribute.IsDefined(field, typeof(TextAreaAttribute)) && iterator.propertyType == SerializedPropertyType.String;
+                bool isArray = iterator.isArray && iterator.propertyType != SerializedPropertyType.String;
 
                 var column = new Column
                 {
@@ -369,10 +370,20 @@ namespace YanickSenn.TableView.Editor
                     minWidth = 50,
                     makeCell = () =>
                     {
-                        var el = isTextArea ? (VisualElement)new TextField() : new PropertyField();
-                        if (el is PropertyField pf) pf.label = "";
-                        if (el is TextField tf) tf.label = "";
-                        return el;
+                        var container = new VisualElement { style = { flexGrow = 1, justifyContent = Justify.Center } };
+                        if (isArray)
+                        {
+                            var label = new Label { style = { unityTextAlign = TextAnchor.MiddleLeft } };
+                            container.Add(label);
+                        }
+                        else
+                        {
+                            var el = isTextArea ? (VisualElement)new TextField() : new PropertyField();
+                            if (el is PropertyField pf) pf.label = "";
+                            if (el is TextField tf) tf.label = "";
+                            container.Add(el);
+                        }
+                        return container;
                     },
                     bindCell = (element, index) =>
                     {
@@ -382,11 +393,16 @@ namespace YanickSenn.TableView.Editor
                             var prop = so.FindProperty(path);
                             if (prop != null)
                             {
-                                if (element is PropertyField propField)
+                                var child = element.ElementAt(0);
+                                if (isArray && child is Label label)
+                                {
+                                    label.text = $"{prop.arraySize} items";
+                                }
+                                else if (child is PropertyField propField)
                                 {
                                     propField.BindProperty(prop);
                                 }
-                                else if (element is IBindable bindable)
+                                else if (child is IBindable bindable)
                                 {
                                     bindable.BindProperty(prop);
                                 }
