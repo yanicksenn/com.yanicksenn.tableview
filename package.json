@@ -1,6 +1,6 @@
 {
   "name": "com.yanicksenn.tableview",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "displayName": "Table View",
   "description": "This package allows viewing scriptable objects in a table format.",
   "unity": "6000.0",
@@ -11,6 +11,6 @@
     "url": ""
   },
   "dependencies": {
-    "com.yanicksenn.utils": "https://github.com/yanicksenn/com.yanicksenn.utils#2.0.4"
+    "com.yanicksenn.utils": "https://github.com/yanicksenn/com.yanicksenn.utils.git#2.0.5"
   }
 }
