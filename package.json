@@ -11,6 +11,6 @@
     "url": ""
   },
   "dependencies": {
-    "com.yanicksenn.utils": "https://github.com/yanicksenn/com.yanicksenn.utils.git#2.0.9"
+    "com.yanicksenn.utils": "https://github.com/yanicksenn/com.yanicksenn.utils.git#2.0.11"
   }
 }
